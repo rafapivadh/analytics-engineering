@@ -22,9 +22,9 @@ SELECT
     bcd.partition_date,
     MAX(CASE WHEN cod.customer_contact IS NOT NULL THEN TRUE
          ELSE FALSE END) AS has_customer_care_contact,
-    MAX(cod.is_successful) AS is_successful,
+    MAX(COALESCE(cod.is_successful,FALSE)) AS is_successful,
     SUM(cod.order_value_eur) AS order_value_eur,
-    SUM(cod.order_value_eur - cod.discount_value_eur) AS discounted_order_value_eur,
+    SUM(cod.order_value_eur - COALESCE(cod.discount_value_eur,0) - COALESCE(cod.voucher_value_eur,0)) AS discounted_order_value_eur,
     COUNT(bcd.event_id) AS event_count,
     COUNT(CASE WHEN bcd.event_name IN ("app.open","add_cart.click","shop_list.loaded","transaction")
                THEN bcd.event_id END) AS engagement_score,

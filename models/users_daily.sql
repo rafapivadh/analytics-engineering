@@ -19,7 +19,9 @@ SELECT
          ELSE "Returning" END AS user_type
 FROM
     `dh-codapro-analytics-2460.hiring_search_analytics.behavioural_customer_data` bcd
-LEFT JOIN user_type AS ut ON (bcd.customer_id = ut.customer_id)
+LEFT JOIN user_type AS ut 
+ON 
+  bcd.customer_id = ut.customer_id
 WHERE
       bcd.customer_id IS NOT NULL
 

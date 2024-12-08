@@ -3,7 +3,7 @@ SELECT
     cod.customer_id,
     cod.order_value_eur,
     cod.discount_value_eur,
-    cod.order_value_eur - cod.discount_value_eur AS discounted_order_value_eur,
+    cod.order_value_eur - COALESCE(cod.discount_value_eur,0) - COALESCE(cod.voucher_value_eur,0) AS discounted_order_value_eur,
     cod.is_successful,
     cod.partition_date,
     cod.placed_at_utc,
