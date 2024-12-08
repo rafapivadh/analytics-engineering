@@ -8,7 +8,8 @@ WITH experiments AS (
 
  FROM `dh-codapro-analytics-2460.hiring_search_analytics.backend_logging_data` blg
  INNER JOIN UNNEST(blg.fun_with_flags_client.response.experiments) AS experiment
- WHERE blg.perseus_id IS NOT NULL AND experiment.key IS NOT NULL
+ WHERE blg.perseus_id IS NOT NULL 
+ AND experiment.key IS NOT NULL
 ),
 
 SELECT
@@ -30,7 +31,7 @@ SELECT
     COUNT(DISTINCT bcd.transaction_id) AS num_of_transactions
 FROM
     experiments
-LEFT JOIN
+INNER JOIN
     `dh-codapro-analytics-2460.hiring_search_analytics.behavioural_customer_data` bcd
 ON
     experiments.perseus_session_id = bcd.session_id
@@ -48,4 +49,4 @@ bcd.customer_id,
 bcd.session_id,
 bcd.client_id,
 cod.order_id,
-bcd.partition_date;
+bcd.partition_date
